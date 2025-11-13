@@ -1,0 +1,13 @@
+# IDE files
+.idea/
+
+# Backend
+target/
+*.log
+
+# Frontend
+node_modules/
+.env
+npm-debug.log
+build/
+.DS_Store

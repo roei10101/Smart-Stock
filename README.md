@@ -86,7 +86,7 @@ Follow these instructions to set up the project locally on your machine.
 ```bash
 git clone [https://github.com/your-username/smart-stock.git](https://github.com/your-username/smart-stock.git)
 cd smart-stock
-
+```
 ### 2. Backend Setup
 1.  **Database:** Create a new PostgreSQL database named `smartstock`.
 2.  **Configuration:** The project uses `application.properties`. For local development, default settings may suffice, but ensure your database credentials match.

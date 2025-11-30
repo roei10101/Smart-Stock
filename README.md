@@ -84,7 +84,7 @@ Follow these instructions to set up the project locally on your machine.
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/your-username/smart-stock.git](https://github.com/your-username/smart-stock.git)
+git clone https://github.com/roei10101/smart-stock.git
 cd smart-stock
 ```
 ### 2. Backend Setup

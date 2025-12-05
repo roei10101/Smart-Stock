@@ -4,7 +4,6 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn -Djava.net.preferIPv6Addresses=true -Djava.net.preferIPv4Stack=false clean package -DskipTests
-# Stage 2: Run the application
 FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar

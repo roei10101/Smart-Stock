@@ -25,7 +25,7 @@ services:
       - "6000:6000"
     environment:
       SERVER_PORT: 6000
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smartstock
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5433/smartstock
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgresdemo
       JWT_SECRET_KEY: aVeryLongAndSuperSecureSecretKeyForMySmartStockApplication2025!@#$$

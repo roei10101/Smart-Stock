@@ -5,7 +5,6 @@ services:
 
   backend:
     image: smartstock-backend:latest 
-    restart: always
     pull_policy: never
     build:
       context: ./backend      

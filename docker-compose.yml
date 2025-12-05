@@ -1,32 +1,26 @@
 version: '3.8'
 
 services:
-
-
   backend:
-    image: smartstock-backend:latest 
-    pull_policy: never
-    build:
-      context: ./backend      
-      network: host           
     container_name: smartstock-backend
+    build:
+      context: .   
+      network: host 
+    image: smartstock-backend:latest
+    pull_policy: never
     ports:
       - "6000:6000"
     environment:
-      SERVER_PORT: 6000
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smartstock
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgresdemo
-      JWT_SECRET_KEY: aVeryLongAndSuperSecureSecretKeyForMySmartStockApplication2025!@#$$
+      - SERVER_PORT=6000
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://smartbrain-db-1:5432/smartstock
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgresdemo
+      - JWT_SECRET_KEY=aVeryLongAndSuperSecureSecretKeyForMySmartStockApplication2025!@#$$
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     networks:
       - shared_network
-    depends_on:
-      - db
     restart: unless-stopped
 
-volumes:
-  postgres_data:
-  
 networks:
   shared_network:
     external: true

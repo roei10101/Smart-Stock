@@ -5,6 +5,7 @@ services:
 
   backend:
     image: smartstock-backend:latest 
+    restart: always
     pull_policy: never
     build:
       context: ./backend      
@@ -18,9 +19,16 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgresdemo
       JWT_SECRET_KEY: aVeryLongAndSuperSecureSecretKeyForMySmartStockApplication2025!@#$$
+    networks:
+      - shared_network
     depends_on:
       - db
     restart: unless-stopped
 
 volumes:
   postgres_data:
+  
+networks:
+  shared_network:
+    external: true
+    name: smartbrain_smartbrain-network

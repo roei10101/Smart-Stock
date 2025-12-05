@@ -15,8 +15,9 @@ services:
     restart: unless-stopped
 
   backend:
-    build: ./backend
-    network: host
+    build:
+      context: ./backend      
+      network: host           
     container_name: smartstock-backend
     ports:
       - "6000:6000"

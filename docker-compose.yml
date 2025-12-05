@@ -24,7 +24,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smartstock
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgresdemo
-      JWT_SECRET_KEY: aVeryLongAndSuperSecureSecretKeyForMySmartStockApplication2025!@#$
+      JWT_SECRET_KEY: aVeryLongAndSuperSecureSecretKeyForMySmartStockApplication2025!@#$$
     depends_on:
       - db
     restart: unless-stopped

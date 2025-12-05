@@ -6,8 +6,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application
-FROM openjdk:17-jdk-slim
-WORKDIR /app
+FROM eclipse-temurin:17-jdk-jammyWORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 6000
 ENTRYPOINT ["java", "-jar", "app.jar"]

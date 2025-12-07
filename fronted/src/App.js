@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import axios from 'axios';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // RTL styling imports
@@ -36,6 +37,15 @@ const cacheRtl = createCache({
 
 function App() {
     const [mode, setMode] = useState('light');
+
+    useEffect(() => {
+        // בודק אם יש טוקן שמור כשהאפליקציה עולה
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            // מגדיר אותו כברירת מחדל לכל הבקשות של Axios
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        }
+    }, []);
 
     const colorMode = useMemo(
         () => ({

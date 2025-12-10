@@ -15,7 +15,7 @@ function InventoryPage() {
             setLoading(true);
             setError(null);
             try {
-                const response = await api.get('/products');
+                const response = await api.get('/api/products');
                 if (response && Array.isArray(response.data)) {
                     setProducts(response.data);
                 } else {

@@ -15,7 +15,7 @@ function ProductListPage() {
 
     const fetchProducts = async () => {
         try {
-            const response = await api.get('/products');
+            const response = await api.get('/api/products');
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products!", error);
@@ -49,7 +49,7 @@ function ProductListPage() {
         if (!selectedProduct) return;
         try {
             // This will delete the entire product, and the backend will handle deleting the variants.
-            await api.delete(`/products/${selectedProduct.id}`);
+            await api.delete(`/api/products/${selectedProduct.id}`);
             fetchProducts();
         } catch (error) {
             console.error('Failed to delete product:', error);

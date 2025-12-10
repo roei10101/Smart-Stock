@@ -42,7 +42,7 @@ function CustomersPage() {
     const fetchCustomers = async () => {
         setLoading(true);
         try {
-            const response = await api.get('/customers');
+            const response = await api.get('/api/customers');
             if (response && Array.isArray(response.data)) {
                 setCustomers(response.data);
             } else {
@@ -77,7 +77,7 @@ function CustomersPage() {
     const handleConfirmDelete = async () => {
         if (!customerToDelete) return;
         try {
-            await api.delete(`/customers/${customerToDelete.id}`);
+            await api.delete(`/api/customers/${customerToDelete.id}`);
             fetchCustomers();
         } catch (error) {
             console.error('Failed to delete customer:', error);

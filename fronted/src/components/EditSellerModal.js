@@ -24,7 +24,7 @@ function EditSellerModal({ open, onClose, onSellerUpdated, sellerToEdit }) {
         }
 
         try {
-            await api.put(`/sellers/${sellerToEdit.id}`, { name });
+            await api.put(`/api/sellers/${sellerToEdit.id}`, { name });
             onSellerUpdated(); // Refresh the list of sellers
             onClose(); // Close the modal
         } catch (error) {

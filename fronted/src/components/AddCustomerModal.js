@@ -14,7 +14,7 @@ function AddCustomerModal({ open, onClose, onCustomerAdded }) {
         }
 
         try {
-            await api.post('/customers', { name });
+            await api.post('/api/customers', { name });
             onCustomerAdded();
             onClose();
             setName(''); // Reset name after submission

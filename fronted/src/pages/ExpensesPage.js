@@ -51,7 +51,7 @@ function ExpensesPage() {
     const fetchExpenses = async () => {
         setLoading(true);
         try {
-            const response = await api.get('/expenses');
+            const response = await api.get('/api/expenses');
             if (response && Array.isArray(response.data)) {
                 setExpenses(response.data);
             } else {
@@ -86,7 +86,7 @@ function ExpensesPage() {
     const handleConfirmDelete = async () => {
         if (!expenseToDelete) return;
         try {
-            await api.delete(`/expenses/${expenseToDelete.id}`);
+            await api.delete(`/api/expenses/${expenseToDelete.id}`);
             fetchExpenses();
         } catch (error) {
             console.error('Failed to delete expense:', error);

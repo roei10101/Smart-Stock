@@ -46,13 +46,13 @@ const SummaryCard = ({ title, value, icon, color, delay = 0 }) => {
             </Box>
 
             <Box sx={{ zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-                <Box sx={{ color: color, mb: 1 }}>
+                <Box sx={{ color: 'text.primary', mb: 1 }}>
                     {React.cloneElement(icon, { fontSize: "large" })}
                 </Box>
                 <Typography variant="h6" sx={{ fontWeight: 600, opacity: 0.8 }}>
                     {title}
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: color }}>
+                <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
                     {value}
                 </Typography>
             </Box>

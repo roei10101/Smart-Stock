@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Paper } from '@mui/material';
 
@@ -14,7 +14,7 @@ function LoginPage() {
         setError('');
 
         try {
-            const response = await axios.post('/api/auth/login', {
+            const response = await api.post('/api/auth/login', {
                 username,
                 password,
             });

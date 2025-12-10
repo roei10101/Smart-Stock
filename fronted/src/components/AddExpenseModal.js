@@ -18,7 +18,7 @@ function AddExpenseModal({ open, onClose, onExpenseAdded }) {
     useEffect(() => {
         if (open) {
             setLoading(true);
-            api.get('/sellers')
+            api.get('/api/sellers')
                 .then(response => {
                     setSellers(Array.isArray(response.data) ? response.data : []);
                 })
@@ -29,7 +29,7 @@ function AddExpenseModal({ open, onClose, onExpenseAdded }) {
                 .finally(() => {
                     setLoading(false);
                 });
-            
+
             // Reset form
             setExpenseData({
                 sellerId: '',
@@ -60,7 +60,7 @@ function AddExpenseModal({ open, onClose, onExpenseAdded }) {
                 amount: Number(amount),
                 date: date,
             };
-            await api.post('/expenses', payload);
+            await api.post('/api/expenses', payload);
             onExpenseAdded();
             onClose();
         } catch (error) {

@@ -42,7 +42,7 @@ function SellersPage() {
     const fetchSellers = async () => {
         setLoading(true);
         try {
-            const response = await api.get('/sellers');
+            const response = await api.get('/api/sellers');
             if (response && Array.isArray(response.data)) {
                 setSellers(response.data);
             } else {
@@ -77,7 +77,7 @@ function SellersPage() {
     const handleConfirmDelete = async () => {
         if (!sellerToDelete) return;
         try {
-            await api.delete(`/sellers/${sellerToDelete.id}`);
+            await api.delete(`/api/sellers/${sellerToDelete.id}`);
             handleSellerAddedOrUpdated();
         } catch (error) {
             console.error('Failed to delete seller:', error);

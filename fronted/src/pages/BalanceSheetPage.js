@@ -47,7 +47,7 @@ function BalanceSheetPage() {
             setLoading(true);
             setError(null);
             try {
-                const response = await api.get('/balance-sheet');
+                const response = await api.get('/api/balance-sheet');
                 if (response && response.data) {
                     setBalanceData(response.data);
                 } else {

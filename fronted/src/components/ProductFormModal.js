@@ -77,9 +77,9 @@ function ProductFormModal({ open, onClose, onSave, productToEdit }) {
 
         try {
             if (isEditMode) {
-                await api.put(`/products/${productToEdit.id}`, productData);
+                await api.put(`/api/products/${productToEdit.id}`, productData);
             } else {
-                await api.post('/products', productData);
+                await api.post('/api/products', productData);
             }
             onSave(); // Refresh the product list
             onClose(); // Close the modal

@@ -89,11 +89,11 @@ function DashboardPage() {
             setError(null);
             try {
                 const [summaryRes, salesByProductRes, salesBySellerRes, salesOverTimeRes, salesDistributionRes] = await Promise.all([
-                    api.get('/dashboard/summary').catch(err => { console.error("Error fetching summary:", err); return { data: null }; }),
-                    api.get('/dashboard/sales-by-product').catch(err => { console.error("Error fetching sales by product:", err); return { data: [] }; }),
-                    api.get('/dashboard/sales-by-seller').catch(err => { console.error("Error fetching sales by seller:", err); return { data: [] }; }),
-                    api.get('/dashboard/sales-over-time').catch(err => { console.error("Error fetching sales over time:", err); return { data: [] }; }),
-                    api.get('/dashboard/sales-distribution-by-product').catch(err => { console.error("Error fetching sales distribution by product:", err); return { data: [] }; }),
+                    api.get('/api/dashboard/summary').catch(err => { console.error("Error fetching summary:", err); return { data: null }; }),
+                    api.get('/api/dashboard/sales-by-product').catch(err => { console.error("Error fetching sales by product:", err); return { data: [] }; }),
+                    api.get('/api/dashboard/sales-by-seller').catch(err => { console.error("Error fetching sales by seller:", err); return { data: [] }; }),
+                    api.get('/api/dashboard/sales-over-time').catch(err => { console.error("Error fetching sales over time:", err); return { data: [] }; }),
+                    api.get('/api/dashboard/sales-distribution-by-product').catch(err => { console.error("Error fetching sales distribution by product:", err); return { data: [] }; }),
                 ]);
 
                 setSummary(summaryRes.data);

@@ -26,9 +26,9 @@ function EditSaleModal({ open, onClose, onSaleUpdated, saleToEdit }) {
             setLoading(true);
             try {
                 const [productsRes, customersRes, sellersRes] = await Promise.all([
-                    api.get('/products').catch(err => ({ data: [] })),
-                    api.get('/customers').catch(err => ({ data: [] })),
-                    api.get('/sellers').catch(err => ({ data: [] })),
+                    api.get('/api/products').catch(err => ({ data: [] })),
+                    api.get('/api/customers').catch(err => ({ data: [] })),
+                    api.get('/api/sellers').catch(err => ({ data: [] })),
                 ]);
 
                 const fetchedProducts = Array.isArray(productsRes.data) ? productsRes.data : [];
@@ -132,7 +132,7 @@ function EditSaleModal({ open, onClose, onSaleUpdated, saleToEdit }) {
                 totalPrice: Number(totalPrice),
             };
 
-            await api.put(`/sales/${saleToEdit.id}`, payload);
+            await api.put(`/api/sales/${saleToEdit.id}`, payload);
             onSaleUpdated();
             onClose();
         } catch (error) {

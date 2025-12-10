@@ -27,9 +27,9 @@ function AddSaleModal({ open, onClose, onSaleAdded }) {
             const fetchInitialData = async () => {
                 try {
                     const [productsRes, customersRes, sellersRes] = await Promise.all([
-                        api.get('/products').catch(err => ({ data: [] })),
-                        api.get('/customers').catch(err => ({ data: [] })),
-                        api.get('/sellers').catch(err => ({ data: [] })),
+                        api.get('/api/products').catch(err => ({ data: [] })),
+                        api.get('/api/customers').catch(err => ({ data: [] })),
+                        api.get('/api/sellers').catch(err => ({ data: [] })),
                     ]);
 
                     setProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
@@ -79,7 +79,7 @@ function AddSaleModal({ open, onClose, onSaleAdded }) {
 
             if (!customerExists) {
                 console.log(`Customer "${currentCustomerName}" does not exist. Creating...`);
-                await api.post('/customers', { name: currentCustomerName });
+                await api.post('/api/customers', { name: currentCustomerName });
                 console.log(`Customer "${currentCustomerName}" created successfully.`);
             }
 
@@ -92,7 +92,7 @@ function AddSaleModal({ open, onClose, onSaleAdded }) {
                 totalPrice: Number(totalPrice),
             };
 
-            await api.post('/sales', payload);
+            await api.post('/api/sales', payload);
             onSaleAdded();
             onClose();
         } catch (error) {

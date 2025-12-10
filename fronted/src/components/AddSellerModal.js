@@ -14,7 +14,7 @@ function AddSellerModal({ open, onClose, onSellerAdded }) {
         }
 
         try {
-            await api.post('/sellers', { name });
+            await api.post('/api/sellers', { name });
             onSellerAdded();
             onClose();
             setName(''); // Reset name after submission

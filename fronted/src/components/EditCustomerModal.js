@@ -24,7 +24,7 @@ function EditCustomerModal({ open, onClose, onCustomerUpdated, customerToEdit })
         }
 
         try {
-            await api.put(`/customers/${customerToEdit.id}`, { name });
+            await api.put(`/api/customers/${customerToEdit.id}`, { name });
             onCustomerUpdated(); // Refresh the list of customers
             onClose(); // Close the modal
         } catch (error) {

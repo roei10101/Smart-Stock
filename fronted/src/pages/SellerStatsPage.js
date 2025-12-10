@@ -49,7 +49,7 @@ function SellerStatsPage() {
         const fetchStats = async () => {
             setLoading(true);
             try {
-                const response = await api.get('/sellers/stats');
+                const response = await api.get('/api/sellers/stats');
                 if (response && Array.isArray(response.data)) {
                     setStats(response.data);
                 } else {

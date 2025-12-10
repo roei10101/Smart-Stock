@@ -56,7 +56,7 @@ function SalesPage() {
     const fetchSales = async () => {
         setLoading(true);
         try {
-            const response = await api.get('/sales');
+            const response = await api.get('/api/sales');
             if (response && Array.isArray(response.data)) {
                 setSales(response.data);
             } else {
@@ -90,7 +90,7 @@ function SalesPage() {
     const handleConfirmDelete = async () => {
         if (!saleToDelete) return;
         try {
-            await api.delete(`/sales/${saleToDelete.id}`);
+            await api.delete(`/api/sales/${saleToDelete.id}`);
             fetchSales();
         } catch (error) {
             console.error('Failed to delete sale:', error);

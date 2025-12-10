@@ -18,7 +18,7 @@ function EditExpenseModal({ open, onClose, onExpenseUpdated, expenseToEdit }) {
     useEffect(() => {
         if (open) {
             setLoading(true);
-            api.get('/sellers')
+            api.get('/api/sellers')
                 .then(response => {
                     setSellers(Array.isArray(response.data) ? response.data : []);
                     if (expenseToEdit) {
@@ -65,7 +65,7 @@ function EditExpenseModal({ open, onClose, onExpenseUpdated, expenseToEdit }) {
                 amount: Number(amount),
                 date: date,
             };
-            await api.put(`/expenses/${expenseToEdit.id}`, payload);
+            await api.put(`/api/expenses/${expenseToEdit.id}`, payload);
             onExpenseUpdated();
             onClose();
         } catch (error) {

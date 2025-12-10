@@ -24,7 +24,7 @@ function LoginPage() {
 
             // רענון העמוד כדי שהאפליקציה תטען מחדש עם הטוקן
             // Changed to use navigate hook
-            navigate('/products');
+            navigate('/dashboard');
 
         } catch (err) {
             setError('שם משתמש או סיסמה שגויים');

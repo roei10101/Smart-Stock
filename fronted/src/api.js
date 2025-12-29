@@ -3,9 +3,6 @@ import axios from 'axios';
 // צור מופע של Axios עם הגדרות ברירת מחדל
 const api = axios.create({
     baseURL: 'https://smartstockbackend.roeiduenyas.me/',
-    withCredentials: true,
-    xsrfCookieName: 'XSRF-TOKEN',
-    xsrfHeaderName: 'X-XSRF-TOKEN',
 });
 
 // הוספת "מיירט" (interceptor) לבקשות
@@ -17,17 +14,6 @@ api.interceptors.request.use(
             // אם הטוקן קיים, הוסף אותו ל-Header של הבקשה
             config.headers['Authorization'] = `Bearer ${token}`;
         }
-
-        // Add CSRF Token manually (Explicit Check)
-        const xsrfToken = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('XSRF-TOKEN='))
-            ?.split('=')[1];
-
-        if (xsrfToken) {
-            config.headers['X-XSRF-TOKEN'] = xsrfToken;
-        }
-
         return config;
     },
     (error) => {

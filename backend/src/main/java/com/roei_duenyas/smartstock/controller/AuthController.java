@@ -29,9 +29,4 @@ public class AuthController {
     public ResponseEntity<AuthResponseDto> authenticate(@RequestBody AuthRequestDto request) {
         return ResponseEntity.ok(service.authenticate(request));
     }
-
-    @GetMapping("/csrf")
-    public CsrfToken csrf(CsrfToken token) {
-        return token;
-    }
 }

@@ -1,37 +1,25 @@
 import axios from 'axios';
 
-// Create Axios instance with default settings
+// צור מופע של Axios עם הגדרות ברירת מחדל
 const api = axios.create({
     baseURL: 'https://smartstockbackend.roeiduenyas.me/',
 });
 
-// Add request interceptor
+// הוספת "מיירט" (interceptor) לבקשות
 api.interceptors.request.use(
     (config) => {
-        // Get token from localStorage
+        // קח את הטוקן מה-localStorage
         const token = localStorage.getItem('authToken');
         if (token) {
-            // If token exists, add to Authorization header
+            // אם הטוקן קיים, הוסף אותו ל-Header של הבקשה
             config.headers['Authorization'] = `Bearer ${token}`;
         }
-
-        // Add CSRF Token
-        const xsrfToken = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('XSRF-TOKEN='))
-            ?.split('=')[1];
-
-        if (xsrfToken) {
-            config.headers['X-XSRF-TOKEN'] = xsrfToken;
-        }
-
         return config;
     },
     (error) => {
         return Promise.reject(error);
     }
 );
-
 api.interceptors.response.use(
     (response) => {
         // If the request was successful, just return the response
@@ -49,5 +37,4 @@ api.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
 export default api;

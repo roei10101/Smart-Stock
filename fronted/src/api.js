@@ -17,6 +17,17 @@ api.interceptors.request.use(
             // אם הטוקן קיים, הוסף אותו ל-Header של הבקשה
             config.headers['Authorization'] = `Bearer ${token}`;
         }
+
+        // Add CSRF Token manually (Explicit Check)
+        const xsrfToken = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('XSRF-TOKEN='))
+            ?.split('=')[1];
+
+        if (xsrfToken) {
+            config.headers['X-XSRF-TOKEN'] = xsrfToken;
+        }
+
         return config;
     },
     (error) => {

@@ -3,9 +3,6 @@ import axios from 'axios';
 // צור מופע של Axios עם הגדרות ברירת מחדל
 const api = axios.create({
     baseURL: 'https://smartstockbackend.roeiduenyas.me/',
-    withCredentials: true,
-    xsrfCookieName: 'XSRF-TOKEN',
-    xsrfHeaderName: 'X-XSRF-TOKEN',
 });
 
 // הוספת "מיירט" (interceptor) לבקשות

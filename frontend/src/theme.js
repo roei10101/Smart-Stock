@@ -1,5 +1,3 @@
-import { createTheme } from '@mui/material/styles';
-
 // Design tokens for Light and Dark modes
 export const getDesignTokens = (mode) => ({
     direction: 'rtl',

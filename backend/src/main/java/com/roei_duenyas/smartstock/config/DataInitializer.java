@@ -5,10 +5,13 @@ import com.roei_duenyas.smartstock.entity.User;
 import com.roei_duenyas.smartstock.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+// Seeds the public demo account. Off by default - enable with DEMO_USER_ENABLED=true.
 @Component
+@ConditionalOnProperty(name = "app.demo-user.enabled", havingValue = "true")
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 

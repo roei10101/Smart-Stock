@@ -8,10 +8,12 @@ import com.roei_duenyas.smartstock.entity.Role;
 import com.roei_duenyas.smartstock.entity.User;
 import com.roei_duenyas.smartstock.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +25,15 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponseDto register(RegisterRequestDto request) {
+        if (repository.findByUsername(request.getUsername()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken");
+        }
         var user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole() != null ? request.getRole() : Role.USER); // Default to USER
+        // The public registration endpoint must never let callers pick their own role,
+        // otherwise anyone could sign up as ADMIN. Any role in the request is ignored.
+        user.setRole(Role.USER);
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return new AuthResponseDto(jwtToken);

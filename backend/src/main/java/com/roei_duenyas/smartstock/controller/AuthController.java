@@ -4,6 +4,7 @@ import com.roei_duenyas.smartstock.dto.AuthRequestDto;
 import com.roei_duenyas.smartstock.dto.AuthResponseDto;
 import com.roei_duenyas.smartstock.dto.RegisterRequestDto;
 import com.roei_duenyas.smartstock.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> register(@RequestBody RegisterRequestDto request) {
+    public ResponseEntity<AuthResponseDto> register(@Valid @RequestBody RegisterRequestDto request) {
         return ResponseEntity.ok(service.register(request));
     }
 

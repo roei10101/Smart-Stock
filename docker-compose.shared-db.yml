@@ -1,0 +1,32 @@
+# Variant for a host that already runs PostgreSQL in another Compose project
+# (for example the SmartBrain stack): no database container is started and the
+# backend joins that project's network instead.
+#
+#   docker compose -f docker-compose.shared-db.yml up -d --build
+#
+# Required in .env: DB_URL, DB_PASSWORD, JWT_SECRET_KEY and SHARED_DB_NETWORK.
+
+services:
+  backend:
+    container_name: smartstock-backend
+    build: ./backend
+    image: smartstock-backend:latest
+    restart: unless-stopped
+    ports:
+      - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
+    environment:
+      SERVER_PORT: ${SERVER_PORT:-8080}
+      DB_URL: ${DB_URL:?Set DB_URL in .env}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in .env}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+      DDL_AUTO: ${DDL_AUTO:-update}
+      DEMO_USER_ENABLED: ${DEMO_USER_ENABLED:-false}
+    networks:
+      - shared_db
+
+networks:
+  shared_db:
+    external: true
+    name: ${SHARED_DB_NETWORK:?Set SHARED_DB_NETWORK in .env}

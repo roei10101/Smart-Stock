@@ -1,5 +1,6 @@
 # 🚀 Smart-Stock: Intelligent Inventory & Sales Manager
 
+[![CI](https://github.com/roei10101/Smart-Stock/actions/workflows/ci.yml/badge.svg)](https://github.com/roei10101/Smart-Stock/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Java](https://img.shields.io/badge/Java-17-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-green)
@@ -10,13 +11,15 @@
 
 It provides a centralized platform for managing products, tracking seller performance, monitoring expenses, and visualizing real-time business insights through a professional dashboard. The system is optimized for performance, supports Right-to-Left (RTL) layout, and provides detailed financial reporting.
 
+🌐 **Live demo:** https://smartstock.roeiduenyas.me
+
 ---
 
 ## ✨ Key Features
 
 ### 🔐 Security & User Management
-* **Secure Authentication:** Robust login and registration system using **JWT (JSON Web Tokens)**.
-* **Role-Based Access Control (RBAC):** Distinct permissions for **Admins** (full control) and **Users** (sellers).
+* **Secure Authentication:** Stateless login using **JWT (JSON Web Tokens)** with BCrypt-hashed passwords.
+* **Safe by default:** Self-registration always creates a regular user (a role sent by the client is ignored), invalid or expired tokens are rejected with `401`, and no secret has a default value in the code.
 
 ### 📦 Inventory Management
 * **Product Operations:** Full CRUD (Create, Read, Update, Delete) capabilities.
@@ -66,64 +69,80 @@ It provides a centralized platform for managing products, tracking seller perfor
 
 ---
 
-## 📸 Screenshots
+## 🚀 Getting Started
 
-> *Placeholders for application screenshots.*
+### Option 1: Docker (recommended)
+
+Requires Docker with Compose v2.
+
+```bash
+git clone https://github.com/roei10101/Smart-Stock.git
+cd Smart-Stock
+
+# 1. Create your local configuration - no secret is stored in the repository
+cp .env.example .env
+#    then set DB_PASSWORD (openssl rand -hex 24) and JWT_SECRET_KEY (openssl rand -base64 48)
+
+# 2. Start PostgreSQL and the backend
+docker compose up --build
+```
+
+The API is now on `http://localhost:8080` (health check: `/actuator/health`). Compose refuses to start when a required secret is missing.
+
+Then start the frontend:
+
+```bash
+cd frontend
+npm install
+echo "REACT_APP_API_URL=http://localhost:8080" > .env.local
+npm start        # http://localhost:3000
+```
+
+To get a `demo` / `demo` account for a first login, set `DEMO_USER_ENABLED=true` in `.env`.
+
+### Option 2: Manual backend setup
+
+Requires **Java 17**, **Maven** and a running **PostgreSQL** with a database named `smartstock`.
+
+```bash
+cd backend
+export DB_PASSWORD=...        # your PostgreSQL password
+export JWT_SECRET_KEY=...     # openssl rand -base64 48
+mvn spring-boot:run           # http://localhost:8080
+```
 
 ---
 
-## 🚀 Getting Started
+## ⚙️ Configuration
 
-Follow these instructions to set up the project locally on your machine.
+| Variable | Required | Description | Default |
+| :--- | :---: | :--- | :--- |
+| `DB_PASSWORD` | ✅ | Database password | - |
+| `JWT_SECRET_KEY` | ✅ | Base64 encoded signing key, at least 256 bits | - |
+| `DB_URL` | | JDBC URL for PostgreSQL | `jdbc:postgresql://localhost:5432/smartstock` |
+| `DB_USERNAME` | | Database username | `postgres` |
+| `SERVER_PORT` | | Port the API listens on | `8080` |
+| `CORS_ALLOWED_ORIGINS` | | Comma separated list of allowed origins | hosted frontend + `http://localhost:3000` |
+| `DDL_AUTO` | | Hibernate DDL strategy: `update` (dev) or `validate` (prod) | `update` |
+| `DEMO_USER_ENABLED` | | Create a `demo` / `demo` account on startup | `false` |
+| `REACT_APP_API_URL` | | Frontend build time: URL of the API | hosted backend |
 
-### Prerequisites
-* **Java 17** JDK installed.
-* **Node.js** (LTS) and npm installed.
-* **PostgreSQL** installed and running.
-* **Maven** installed.
+The application fails fast at startup when a required variable is missing. `docker-compose.shared-db.yml` is a variant for hosts where PostgreSQL already runs in another Compose project.
 
-### 1. Clone the Repository
+---
+
+## 🧪 Tests & CI
+
 ```bash
-git clone https://github.com/roei10101/smart-stock.git
-cd smart-stock
+cd backend && mvn verify                     # unit + integration tests (in-memory H2, no setup needed)
+cd frontend && npm test -- --watchAll=false  # frontend unit tests
 ```
-### 2. Backend Setup
-1.  **Database:** Create a new PostgreSQL database named `smartstock`.
-2.  **Configuration:** The project uses `application.properties`. For local development, default settings may suffice, but ensure your database credentials match.
-3.  **Build & Run:**
-    ```bash
-    # Navigate to backend directory (if separated)
-    mvn clean install
-    java -jar target/SmartStock-0.0.1-SNAPSHOT.jar
-    ```
-    *The server will start on port `8080`.*
 
-### 3. Frontend Setup
-1.  **Navigate to frontend:**
-    ```bash
-    cd frontend
-    ```
-2.  **Install Dependencies:**
-    ```bash
-    npm install
-    ```
-3.  **Run Development Server:**
-    ```bash
-    npm start
-    ```
-    *The application will launch at `http://localhost:3000`.*
-	
-	## ⚙️ Configuration & Environment Variables
+* **Stock bookkeeping** - selling deducts stock, deleting a sale returns it, overselling is rejected and leaves stock untouched.
+* **Security** - the full Spring Security filter chain is exercised end to end: protected endpoints need a valid token, forged / malformed / orphaned tokens are rejected, passwords are stored hashed and registration cannot grant `ADMIN`.
+* **Frontend** - route guarding and the API client's token handling.
 
-For production environments or custom local setups, you can set the following environment variables:
-
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `DB_URL` | JDBC URL for PostgreSQL | `jdbc:postgresql://host:5432/db_name` |
-| `DB_USERNAME` | Database Username | `postgres` |
-| `DB_PASSWORD` | Database Password | `secure_password` |
-| `JWT_SECRET_KEY` | Secret key for signing tokens | `YourVeryLongAndSecureSecretKey...` |
-| `DDL_AUTO` | Hibernate DDL strategy | `validate` (prod) or `update` (dev) |
+Every push and pull request runs these suites plus a Docker image build in [GitHub Actions](.github/workflows/ci.yml).
 
 ---
 
@@ -144,6 +163,9 @@ For production environments or custom local setups, you can set the following en
 * `GET /api/dashboard/summary` - High-level KPIs
 * `GET /api/dashboard/sales-by-product` - Chart data
 * `GET /api/balance-sheet` - Financial reports
+
+### Operations
+* `GET /actuator/health` - Health check (public)
 
 ---
 

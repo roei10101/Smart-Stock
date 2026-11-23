@@ -11,6 +11,8 @@
 
 It provides a centralized platform for managing products, tracking seller performance, monitoring expenses, and visualizing real-time business insights through a professional dashboard. The system is optimized for performance, supports Right-to-Left (RTL) layout, and provides detailed financial reporting.
 
+🌐 **Live demo:** https://smartstock.roeiduenyas.me
+
 ---
 
 ## ✨ Key Features

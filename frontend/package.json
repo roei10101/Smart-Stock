@@ -1,5 +1,5 @@
 {
-  "name": "untitled2",
+  "name": "smartstock-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -48,5 +48,10 @@
   },
   "devDependencies": {
     "http-proxy-middleware": "^3.0.5"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
   }
 }

@@ -4,7 +4,7 @@ module.exports = function (app) {
     app.use(
         '/api',
         createProxyMiddleware({
-            target: 'https://smartstockbackend.roeiduenyas.me',
+            target: process.env.REACT_APP_API_URL || 'https://smartstockbackend.roeiduenyas.me',
             changeOrigin: true,
         })
     );

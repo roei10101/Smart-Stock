@@ -1,8 +1,12 @@
 import axios from 'axios';
 
 // צור מופע של Axios עם הגדרות ברירת מחדל
+// Set REACT_APP_API_URL at build time to point at another backend
+// (for example http://localhost:8080); defaults to the hosted one.
+export const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://smartstockbackend.roeiduenyas.me/';
+
 const api = axios.create({
-    baseURL: 'https://smartstockbackend.roeiduenyas.me/',
+    baseURL: API_BASE_URL,
 });
 
 // הוספת "מיירט" (interceptor) לבקשות

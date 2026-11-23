@@ -1,11 +1,12 @@
+# syntax=docker/dockerfile:1
 # --- Build stage ---
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
-# Resolve dependencies first so they are cached between builds
 COPY pom.xml .
-RUN mvn -B -q dependency:go-offline
 COPY src ./src
-RUN mvn -B -q clean package -DskipTests
+# The local Maven repository lives in a BuildKit cache mount, so dependencies are
+# downloaded once and reused by later builds without ending up in an image layer.
+RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -DskipTests
 
 # --- Runtime stage ---
 FROM eclipse-temurin:17-jre-jammy

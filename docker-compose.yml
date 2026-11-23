@@ -1,27 +1,40 @@
-version: '3.8'
+# All credentials come from the .env file next to this file (see .env.example).
+# Compose refuses to start if a required secret is missing.
 
 services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      POSTGRES_DB: ${DB_NAME:-smartstock}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
   backend:
     container_name: smartstock-backend
-    build:
-      context: ./backend
-      network: host 
+    build: ./backend
     image: smartstock-backend:latest
-    pull_policy: never
-    ports:
-      - "6000:6000"
-    environment:
-      - SERVER_PORT=6000
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://smartbrain-db-1:5432/smartstock
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgresdemo
-      - JWT_SECRET_KEY=aVeryLongAndSuperSecureSecretKeyForMySmartStockApplication2025!@#$$
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    networks:
-      - shared_network
     restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-smartstock}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in .env}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+      DDL_AUTO: ${DDL_AUTO:-update}
+      DEMO_USER_ENABLED: ${DEMO_USER_ENABLED:-false}
+    depends_on:
+      db:
+        condition: service_healthy
 
-networks:
-  shared_network:
-    external: true
-    name: smartbrain_smartbrain-network
+volumes:
+  postgres_data:

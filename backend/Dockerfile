@@ -9,7 +9,7 @@ COPY src ./src
 RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -DskipTests
 
 # --- Runtime stage ---
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:25-jre-jammy
 WORKDIR /app
 RUN useradd --system --uid 10001 appuser
 COPY --from=build /app/target/*.jar app.jar
